@@ -36,7 +36,7 @@ body {
     background-color: rgb(208, 222, 255);
 }
 
-#track-wrapper {
+.track-wrapper {
     display: flex;
     box-sizing: border-box;
     padding: 8px;
@@ -62,6 +62,7 @@ body {
 }
 
 .sample-block {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,6 +71,41 @@ body {
     min-width: 60px;
     min-height: 40px;
     margin: 4px;
+    border-radius: 4px;
     color: white;
     background-color: rgb(79, 163, 241);
+}
+
+.sample-close {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    top: -4px;
+    right: -4px;
+    border-width: 2px;
+    border-radius: 4px;
+    border-style: solid;
+    border-color: rgb(255, 255, 255);
+    background-color: rgb(255, 106, 106);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sample-close::before {
+    color: rgb(255, 255, 255);
+    content: "×";
+}
+
+.player-wrapper {
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 8px;
+    min-height: 60px;
+    width: 100%;
+    background-color: rgb(253, 221, 255);
 }

@@ -1,3 +1,37 @@
+class Sample {
+    constructor() {
+
+    }
+
+    play() {}
+}
+
+class Track {
+    constructor({group, pause}) {
+        this._pause = pause;
+        this._group = group;
+    }
+
+
+    get pause() {
+        return this._pause;
+    }
+
+    set pause(duration) {
+        this._pause = duration;
+    }
+}
+
+const samples = {
+    мороз: "./sounds/мороз.mp3",
+    ковёр: "./sounds/ковёр.mp3",
+    муха: "./sounds/муха.mp3",
+    печка: "./sounds/печка.mp3",
+    зима: "./sounds/зима.mp3",
+    халат: "./sounds/халат.mp3",
+    башня: "./sounds/башня.mp3",
+};
+
 const groups = {
     G1: {
         id: "G1",
@@ -36,7 +70,6 @@ const settingsGroups = {
 		}
 	}
 };
-
 const tomSelectGroup = new TomSelect("#select-track", settingsGroups);
 
 const selectGroup = document.querySelector("#select-track");
@@ -57,30 +90,11 @@ function setGroup(event) {
         const sampleBlock = document.createElement("div");
         sampleBlock.classList.add("sample-block");
         sampleBlock.textContent = words[i];
+        const sampleClose = document.createElement("div");
+        sampleClose.classList.add("sample-close");
+        sampleBlock.appendChild(sampleClose);
         trackBlock.appendChild(sampleBlock);
     }
 }
 
-class Sample {
-    constructor() {
 
-    }
-
-    play() {}
-}
-
-class Track {
-    constructor({group, pause}) {
-        this._pause = pause;
-        this._group = group;
-    }
-
-
-    get pause() {
-        return this._pause;
-    }
-
-    set pause(duration) {
-        this._pause = duration;
-    }
-}
