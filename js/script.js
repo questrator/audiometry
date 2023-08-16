@@ -23,6 +23,7 @@ class Track {
 }
 
 const samples = {
+    0: "./sounds/soul-sirkus-periled-divide.mp3",
     мороз: "./sounds/мороз.mp3",
     ковёр: "./sounds/ковёр.mp3",
     муха: "./sounds/муха.mp3",
@@ -106,15 +107,15 @@ const buttonPlay = document.querySelector(".button-play");
 buttonPlay.addEventListener("click", playSample);
 
 function playSample(event) {
-    const audio = new Audio(samples["мороз"]);
+    const audio = new Audio(samples["башня"]);
     let duration = 0;
     audio.addEventListener("loadedmetadata", () => {
         duration = audio.duration;
         console.log(duration);
     });
-    audio.addEventListener("timeupdate", () => {
-        sampleTest.style.backgroundImage = `linear-gradient(90deg, rgba(50,167,228,1) ${audio.currentTime / duration * 100}%, rgba(27,146,208,1) ${audio.currentTime / duration * 100}%)`;
-    });
+    // audio.addEventListener("timeupdate", () => {
+    //     sampleTest.style.backgroundImage = `linear-gradient(90deg, rgba(50,167,228,1) ${audio.currentTime / duration * 100}%, rgba(27,146,208,1) ${audio.currentTime / duration * 100}%)`;
+    // });
 
     requestAnimationFrame(() => { }, sampleTest);
 
@@ -131,7 +132,7 @@ function playSample(event) {
         if (!start) start = timestamp;
         var progress = timestamp - start;
         element.style.backgroundImage =
-        `linear-gradient(90deg, rgba(50,167,228,1) ${audio.currentTime / duration * 100}%, rgba(27,146,208,1) ${audio.currentTime / duration * 100}%)`;
+        `linear-gradient(90deg, rgba(50, 167, 228, 1) ${audio.currentTime / duration * 100}%, rgba(91, 188, 106, 1) ${audio.currentTime / duration * 100}%)`;
         if (progress < 2000) {
             window.requestAnimationFrame(step);
         }
