@@ -3,11 +3,11 @@ class Sample {
 
     }
 
-    play() {}
+    play() { }
 }
 
 class Track {
-    constructor({group, pause}) {
+    constructor({ group, pause }) {
         this._pause = pause;
         this._group = group;
     }
@@ -55,20 +55,20 @@ const groups = {
 
 const settingsGroups = {
     valueField: "id",
-	searchField: ["words", "title", "type"],
-	options: [groups.G1, groups.G2, groups.G3],
-	render: {
-		option: function(data, escape) {
-			return "<div>" +
-					"<span class='select-title'>" + escape(data.title) + "</span>" +
-					"<span class='select-type'>" + escape(data.type) + "</span>" +
-					"<span class='select-words'>" + escape(data.words.join(", ")) + "</span>" +
-				"</div>";
-		},
-		item: function(data, escape) {
-			return "<div title='" + escape(data.words) + "'>" + escape(data.title) + "</div>";
-		}
-	}
+    searchField: ["words", "title", "type"],
+    options: [groups.G1, groups.G2, groups.G3],
+    render: {
+        option: function (data, escape) {
+            return "<div>" +
+                "<span class='select-title'>" + escape(data.title) + "</span>" +
+                "<span class='select-type'>" + escape(data.type) + "</span>" +
+                "<span class='select-words'>" + escape(data.words.join(", ")) + "</span>" +
+                "</div>";
+        },
+        item: function (data, escape) {
+            return "<div title='" + escape(data.words) + "'>" + escape(data.title) + "</div>";
+        }
+    }
 };
 const tomSelectGroup = new TomSelect("#select-track", settingsGroups);
 
@@ -95,6 +95,49 @@ function setGroup(event) {
         sampleBlock.appendChild(sampleClose);
         trackBlock.appendChild(sampleBlock);
     }
+}
+
+
+
+
+const sampleTest = document.querySelector(".sample-test");
+const sampleTestLength = sampleTest.offsetWidth;
+const buttonPlay = document.querySelector(".button-play");
+buttonPlay.addEventListener("click", playSample);
+
+function playSample(event) {
+    const audio = new Audio(samples["мороз"]);
+    let duration = 0;
+    audio.addEventListener("loadedmetadata", () => {
+        duration = audio.duration;
+        console.log(duration);
+    });
+    audio.addEventListener("timeupdate", () => {
+        sampleTest.style.backgroundImage = `linear-gradient(90deg, rgba(50,167,228,1) ${audio.currentTime / duration * 100}%, rgba(27,146,208,1) ${audio.currentTime / duration * 100}%)`;
+    });
+
+    requestAnimationFrame(() => { }, sampleTest);
+
+    audio.play();
+
+
+
+
+
+    var start = null;
+    var element = sampleTest;
+
+    function step(timestamp) {
+        if (!start) start = timestamp;
+        var progress = timestamp - start;
+        element.style.backgroundImage =
+        `linear-gradient(90deg, rgba(50,167,228,1) ${audio.currentTime / duration * 100}%, rgba(27,146,208,1) ${audio.currentTime / duration * 100}%)`;
+        if (progress < 2000) {
+            window.requestAnimationFrame(step);
+        }
+    }
+
+    window.requestAnimationFrame(step);
 }
 
 
