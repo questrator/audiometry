@@ -132,7 +132,7 @@ function playSample(event) {
         if (!start) start = timestamp;
         var progress = timestamp - start;
         element.style.backgroundImage =
-        `linear-gradient(90deg, rgba(50, 167, 228, 1) ${audio.currentTime / duration * 100}%, rgba(91, 188, 106, 1) ${audio.currentTime / duration * 100}%)`;
+        `linear-gradient(90deg, rgba(79, 163, 241, 1) ${audio.currentTime / duration * 100}%, rgba(253, 199, 78, 1) ${audio.currentTime / duration * 100}%)`;
         if (progress < 2000) {
             window.requestAnimationFrame(step);
         }

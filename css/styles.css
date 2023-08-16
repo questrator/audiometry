@@ -122,12 +122,12 @@ body {
     justify-content: center;
     box-sizing: border-box;
     padding: 0px 20px;
-    min-width: 600px;
+    min-width: 380px;
     min-height: 40px;
     margin: 4px;
     border-radius: 4px;
     color: white;
-    background-color: rgba(91, 188, 106, 1);
+    background-color: rgb(253 199 78);
     /* background-image: linear-gradient(90deg, rgba(79, 163, 241,1) 0%, rgb(91, 188, 106) 0%); */
 }
 
