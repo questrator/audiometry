@@ -1,0 +1,75 @@
+body {
+    font-family: "Open Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.select-track-wrapper {
+    display: block;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.select-type, .select-words, .select-title {
+    line-height: 2;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 4px;
+}
+
+.select-type {
+    color: rgb(74, 13, 131);
+    background-color: rgb(227, 197, 255);
+}
+
+.select-words {
+    color: rgb(126, 75, 9);
+    background-color: rgb(255, 224, 181);
+}
+
+.select-title {
+    color: rgb(13, 41, 131);
+    background-color: rgb(208, 222, 255);
+}
+
+#track-wrapper {
+    display: flex;
+    box-sizing: border-box;
+    padding: 8px;
+    min-height: 60px;
+    width: 100%;
+    background-color: rgb(255, 240, 221);
+}
+
+#track {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    width: 100%;
+    background-color: rgb(224, 246, 227);
+}
+
+.track-placeholder {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgb(93, 157, 122);
+}
+
+.sample-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0px 20px;
+    min-width: 60px;
+    min-height: 40px;
+    margin: 4px;
+    color: white;
+    background-color: rgb(79, 163, 241);
+}
