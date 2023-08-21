@@ -102,17 +102,16 @@ class Track {
 }
 
 const track = new Track("#select-track");
-
-const buttonPlay = document.querySelector(".button-play");
-buttonPlay.addEventListener("click", createSampleList);
 track.selector.on("change", createSampleList);
+const trackBlock = document.querySelector("#track");
+const sampleList = [];
 
 function createSampleList(event) {
-  const trackBlock = document.querySelector("#track");
   trackBlock.innerHTML = "";
+  sampleList.length = 0;
   const groupList = track.selector.getValue();
   const wordList = groupList.map(e => groups[e].words).flat(1);
-  const sampleList = wordList.map((e, i) => new Sample(e, words[e], i));
+  sampleList.push(...wordList.map((e, i) => new Sample(e, words[e], i)));
 
   for (let i = 0; i < sampleList.length; i++) {
     const sampleBlock = document.createElement("div");
@@ -124,8 +123,18 @@ function createSampleList(event) {
     trackBlock.insertAdjacentElement("beforeend", sampleBlock);
     sampleList[i].block = sampleBlock;
   }
+}
 
-  console.log(sampleList)
+console.log(sampleList);
+
+const buttonPlay = document.querySelector(".button-play");
+buttonPlay.addEventListener("click", playSamples);
+
+function playSamples() {
+  if (sampleList.length === 0) return;
+    sampleList[0].play();
+    console.log(sampleList);
+}
 
 
   // const sampleTest = document.querySelector(".sample-test");
@@ -157,4 +166,3 @@ function createSampleList(event) {
   
   //     window.requestAnimationFrame(step);
   // }
-}
