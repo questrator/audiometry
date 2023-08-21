@@ -86,7 +86,7 @@ class Sample {
 }
 
 class Track {
-  constructor(selector, samples = [], pause = 500) {
+  constructor(selector, samples = [], pause = 1000) {
     this.pause = pause;
     this.samples = samples;
     this.selector = new TomSelect(selector, selectorSettings);
@@ -125,15 +125,20 @@ function createSampleList(event) {
   }
 }
 
-console.log(sampleList);
-
 const buttonPlay = document.querySelector(".button-play");
 buttonPlay.addEventListener("click", playSamples);
 
 function playSamples() {
   if (sampleList.length === 0) return;
-    sampleList[0].play();
-    console.log(sampleList);
+  let delay = 0;
+  for (let i = 0; i < sampleList.length; i++) {
+    setTimeout(() => {
+      sampleList[i].play();
+      sampleList[i].block.dataset.active = 1;
+      console.log(sampleList[i].word);
+    }, delay);
+    delay += sampleList[i].duration * 1000 + track.pause;
+  }
 }
 
 
