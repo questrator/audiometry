@@ -42,7 +42,7 @@ body {
     padding: 8px;
     min-height: 60px;
     width: 100%;
-    background-color: rgb(255, 240, 221);
+    /* background-color: rgb(255, 240, 221); */
 }
 
 #track {
@@ -50,15 +50,7 @@ body {
     flex-wrap: wrap;
     align-content: center;
     width: 100%;
-    background-color: rgb(224, 246, 227);
-}
-
-.track-placeholder {
-    display: block;
-    width: 100%;
-    text-align: center;
-    font-size: 0.9rem;
-    color: rgb(93, 157, 122);
+    /* background-color: rgb(224, 246, 227); */
 }
 
 .sample-block {
@@ -77,7 +69,28 @@ body {
 }
 
 .sample-block[data-active="1"] {
-    background-color: rgb(247, 182, 15);
+    background-color: rgb(120, 196, 33);
+}
+
+.add-word-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 40px;
+    min-width: 40px;
+    margin: 4px;
+    border-radius: 6px;
+    border-style: dashed;
+    border-width: 2px;
+    border-color: rgb(79, 163, 241);
+}
+
+.add-word-block::before {
+    content: "+";
+    color: rgb(79, 163, 241);
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 .player-wrapper {
@@ -87,7 +100,7 @@ body {
     padding: 8px;
     min-height: 60px;
     width: 100%;
-    background-color: rgb(253, 221, 255);
+    /* background-color: rgb(253, 221, 255); */
 }
 
 
@@ -103,7 +116,7 @@ body {
     margin: 4px;
     border-radius: 4px;
     color: white;
-    background-color: rgb(253 199 78);
+    background-color: rgb(120, 196, 33);
     /* background-image: linear-gradient(90deg, rgba(79, 163, 241,1) 0%, rgb(91, 188, 106) 0%); */
 }
 

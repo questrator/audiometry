@@ -16,7 +16,7 @@ const groups = {
     id: "G1",
     title: "Группа G1",
     type: "Ошерович, 7-14 лет",
-    words: ["мороз", "ковёр", "муха", "печка", "зима", "халат", "башня", "лампа", "река", "сахар"],
+    words: ["мороз", "ковёр", "муха", "печка", "зима", "халат"],
   },
   G2: {
     id: "G2",
@@ -104,10 +104,11 @@ class Track {
 const track = new Track("#select-track");
 track.selector.on("change", createSampleList);
 const trackBlock = document.querySelector("#track");
+const addWordBlock = document.querySelector(".add-word-block");
 const sampleList = [];
 
 function createSampleList(event) {
-  trackBlock.innerHTML = "";
+  trackBlock.innerHTML = "";  
   sampleList.length = 0;
   const groupList = track.selector.getValue();
   const wordList = groupList.map(e => groups[e].words).flat(1);
@@ -123,6 +124,7 @@ function createSampleList(event) {
     trackBlock.insertAdjacentElement("beforeend", sampleBlock);
     sampleList[i].block = sampleBlock;
   }
+  trackBlock.insertAdjacentElement("beforeend", addWordBlock);
 }
 
 const buttonPlay = document.querySelector(".button-play");
