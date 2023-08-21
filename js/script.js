@@ -58,12 +58,15 @@ const selectorSettings = {
 
 
 class Sample {
-  constructor(word, file) {
+  constructor(word, file, id) {
     this.word = word;
     this.file = file;
     this.audio = new Audio(this.file);
     this.duration = null;
     this.getDuration();
+    this.played = false;
+    this.id = id;    
+    this.block = null;
   }
 
   getDuration() {
@@ -83,24 +86,14 @@ class Sample {
 }
 
 class Track {
-  constructor(samples = [], pause = 500) {
+  constructor(selector, samples = [], pause = 500) {
     this.pause = pause;
     this.samples = samples;
-    this.createSampleList();
-    this.selector = new TomSelect("#select-track", selectorSettings);
-    this.selector.on("change", this.getGroupList);
-  }
-
-  selectorOnChange() {
-    
+    this.selector = new TomSelect(selector, selectorSettings);
   }
 
   addSample(sample) {
     this.samples.push(sample);
-  }
-
-  getGroupList() {
-    console.log(this.selector);
   }
 
   createSampleList() {    
@@ -108,36 +101,60 @@ class Track {
   }
 }
 
+const track = new Track("#select-track");
 
-// const sampleTest = document.querySelector(".sample-test");
-// const sampleTestLength = sampleTest.offsetWidth;
-// const buttonPlay = document.querySelector(".button-play");
-// buttonPlay.addEventListener("click", playSample);
+const buttonPlay = document.querySelector(".button-play");
+buttonPlay.addEventListener("click", createSampleList);
+track.selector.on("change", createSampleList);
 
-// function playSample(event) {
-//     const audio = new Audio(words["башня"]);
-//     let duration = 0;
-//     audio.addEventListener("loadedmetadata", () => {
-//         duration = audio.duration;
-//         console.log(duration);
-//     });
-//     audio.play();
+function createSampleList(event) {
+  const trackBlock = document.querySelector("#track");
+  trackBlock.innerHTML = "";
+  const groupList = track.selector.getValue();
+  const wordList = groupList.map(e => groups[e].words).flat(1);
+  const sampleList = wordList.map((e, i) => new Sample(e, words[e], i));
 
-//     var start = null;
-//     var element = sampleTest;
+  for (let i = 0; i < sampleList.length; i++) {
+    const sampleBlock = document.createElement("div");
+    sampleBlock.dataset.played = "0";
+    sampleBlock.dataset.active = "0";
+    sampleBlock.dataset.id = i;
+    sampleBlock.textContent = sampleList[i].word;
+    sampleBlock.classList.add("sample-block");    
+    trackBlock.insertAdjacentElement("beforeend", sampleBlock);
+    sampleList[i].block = sampleBlock;
+  }
 
-//     function step(timestamp) {
-//         if (!start) start = timestamp;
-//         var progress = timestamp - start;
-//         element.style.backgroundImage =
-//         `linear-gradient(90deg, rgba(79, 163, 241, 1) ${audio.currentTime / duration * 100}%, rgba(253, 199, 78, 1) ${audio.currentTime / duration * 100}%)`;
-//         if (progress < 2000) {
-//             window.requestAnimationFrame(step);
-//         }
-//     }
+  console.log(sampleList)
 
-//     window.requestAnimationFrame(step);
-// }
 
-const track = new Track();
-console.log(track.getGroupList());
+  // const sampleTest = document.querySelector(".sample-test");
+  // const sampleTestLength = sampleTest.offsetWidth;
+  // const buttonPlay = document.querySelector(".button-play");
+  // buttonPlay.addEventListener("click", playSample);
+  
+  // function playSample(event) {
+  //     const audio = new Audio(words["башня"]);
+  //     let duration = 0;
+  //     audio.addEventListener("loadedmetadata", () => {
+  //         duration = audio.duration;
+  //         console.log(duration);
+  //     });
+  //     audio.play();
+  
+  //     var start = null;
+  //     var element = sampleTest;
+  
+  //     function step(timestamp) {
+  //         if (!start) start = timestamp;
+  //         var progress = timestamp - start;
+  //         element.style.backgroundImage =
+  //         `linear-gradient(90deg, rgba(79, 163, 241, 1) ${audio.currentTime / duration * 100}%, rgba(253, 199, 78, 1) ${audio.currentTime / duration * 100}%)`;
+  //         if (progress < 2000) {
+  //             window.requestAnimationFrame(step);
+  //         }
+  //     }
+  
+  //     window.requestAnimationFrame(step);
+  // }
+}
