@@ -100,8 +100,7 @@ class Track {
   }
 
   getGroupList() {
-    console.log(this.selector.getValue())
-    return this.selector.getValue();
+    console.log(this.selector);
   }
 
   createSampleList() {    
