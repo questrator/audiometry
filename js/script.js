@@ -30,19 +30,91 @@ const groups = {
     type: "Ошерович, 7-14 лет",
     words: ["мусор", "комар", "пчела", "баба", "ванна"],
   },
+  S1: {
+    id: "S1",
+    title: "мусор",
+    type: "слово",
+    words: ["мусор"],
+  },
+  S2: {
+    id: "S2",
+    title: "комар",
+    type: "слово",
+    words: ["комар"],
+  },
+  S3: {
+    id: "S3",
+    title: "мусор",
+    type: "слово",
+    words: ["мусор"],
+  },
+  S4: {
+    id: "S4",
+    title: "комар",
+    type: "слово",
+    words: ["комар"],
+  },
+  S5: {
+    id: "S5",
+    title: "мусор",
+    type: "слово",
+    words: ["мусор"],
+  },
+  S6: {
+    id: "S6",
+    title: "комар",
+    type: "слово",
+    words: ["комар"],
+  },
+  S7: {
+    id: "S7",
+    title: "мусор",
+    type: "слово",
+    words: ["мусор"],
+  },
+  S8: {
+    id: "S8",
+    title: "комар",
+    type: "слово",
+    words: ["комар"],
+  },
+  S9: {
+    id: "S9",
+    title: "мусор",
+    type: "слово",
+    words: ["мусор"],
+  },
+  S10: {
+    id: "S10",
+    title: "комар",
+    type: "слово",
+    words: ["комар"],
+  },
+  S11: {
+    id: "S11",
+    title: "мусор",
+    type: "слово",
+    words: ["мусор"],
+  },
+  S12: {
+    id: "S12",
+    title: "комар",
+    type: "слово",
+    words: ["комар"],
+  },
 };
 
 const selectorSettings = {
   valueField: "id",
   searchField: ["words", "title", "type"],
-  options: [groups.G1, groups.G2, groups.G3],
+  options: Object.values(groups),
   maxItems: 10,
   render: {
     option: function (data, escape) {
       return (
-        "<div>" +
-          "<span class='select-title'>" + escape(data.title) + "</span>" +
-          "<span class='select-type'>" + escape(data.type) + "</span>" +
+        "<div>" + 
+          (escape(data.type) === "слово" ? "" : "<span class='select-type'>" + escape(data.type) + "</span>") +
+          (escape(data.type) === "слово" ? "" : "<span class='select-title'>" + escape(data.title) + "</span>") +
           "<span class='select-words'>" + escape(data.words.join(", ")) + "</span>" +
         "</div>"
       );
@@ -54,7 +126,6 @@ const selectorSettings = {
     },
   },
 };
-
 
 
 class Sample {
@@ -104,7 +175,6 @@ class Track {
 const track = new Track("#select-track");
 track.selector.on("change", createSampleList);
 const trackBlock = document.querySelector("#track");
-const addWordBlock = document.querySelector(".add-word-block");
 const sampleList = [];
 
 function createSampleList(event) {
@@ -124,7 +194,6 @@ function createSampleList(event) {
     trackBlock.insertAdjacentElement("beforeend", sampleBlock);
     sampleList[i].block = sampleBlock;
   }
-  trackBlock.insertAdjacentElement("beforeend", addWordBlock);
 }
 
 const buttonPlay = document.querySelector(".button-play");

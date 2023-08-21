@@ -72,27 +72,6 @@ body {
     background-color: rgb(120, 196, 33);
 }
 
-.add-word-block {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    min-height: 40px;
-    min-width: 40px;
-    margin: 4px;
-    border-radius: 6px;
-    border-style: dashed;
-    border-width: 2px;
-    border-color: rgb(79, 163, 241);
-}
-
-.add-word-block::before {
-    content: "+";
-    color: rgb(79, 163, 241);
-    font-size: 1.5rem;
-    line-height: 1;
-}
-
 .player-wrapper {
     display: flex;
     justify-content: center;
