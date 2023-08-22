@@ -2,12 +2,16 @@ import words from "./words.js";
 import groups from "./groups.js";
 import selectorSettings from "./selectorSettings.js";
 
-const rangeNoise = document.querySelector("#range-noise");
-rangeNoise.addEventListener("change", changeNoise);
+// const rangeNoise = document.querySelector("#range-noise");
+// rangeNoise.addEventListener("change", changeNoise);
+// const rangeNoiseLabel = document.querySelector(".player-noise-label");
 
-function changeNoise() {
-  track.noise = rangeNoise.value;
-}
+// function changeNoise() {
+//   const noise = ["нет шума", "шум 3 dB", "шум 6 dB"];
+//   track.noise = +rangeNoise.value;
+//   rangeNoiseLabel.textContent = noise[rangeNoise.value];
+//   console.log(track)
+// }
 
 class Sample {
   constructor(word, file, id) {
@@ -46,11 +50,20 @@ class Track {
     this.current = 0;
     this.previous = 0;
     this.next = 1;
-    this.noise = +rangeNoise.value;
+    this.noiseRange = document.querySelector("#range-noise");
+    this.noiseRange.addEventListener("change", this.changeNoise.bind(this));
+    this.noiseLevel = 0;
+    this.noiseLabel = document.querySelector(".player-noise-label");
+    this.noiseLevels = ["нет шума", "шум 3 dB", "шум 6 dB"];
   }
 
   addSample(sample) {
     this.samples.push(sample);
+  }
+
+  changeNoise() {
+    this.noiseLevel = +(this.noiseRange.value);
+    this.noiseLabel.textContent = this.noiseLevels[this.noiseRange.value];
   }
 }
 
@@ -95,9 +108,7 @@ function playSample() {
   track.samples[track.current].block.dataset.active = 1;
   track.samples[track.current].block.dataset.current = 1;
   if (track.current < track.samples.length - 1) track.current++;
-  console.log("prev", track.previous)
-  console.log("curr", track.current)
-  console.log("next", track.next)
+  console.log("track", track)
 }
 
 function prevSample() {
@@ -108,6 +119,8 @@ function nextSample() {
   if (track.current + 1 === track.samples.length) return;
   track.samples[track.current].block.dataset.current = 0;
   track.current += 1;
+  track.next += 1;
+  track.previous += 1;
   track.samples[track.current].block.dataset.current = 1;
   console.log(track.current)
 }
