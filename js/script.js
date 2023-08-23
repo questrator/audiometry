@@ -100,12 +100,20 @@ buttonNext.addEventListener("click", nextSample);
 
 function playSample() {
   if (track.samples.length === 0) return; 
+  track.samples[track.current].audio.addEventListener("play", () => {
+    document.querySelector(".button-play").disabled = true;
+    document.querySelector(".button-prev").disabled = true;
+    document.querySelector(".button-next").disabled = true;
+  });
   track.samples[track.current].audio.addEventListener("ended", () => {
     track.samples[track.current].block.dataset.active = 0;
     track.samples[track.current].block.dataset.current = 0;
     track.samples[track.current].block.dataset.played = 1;
     if (track.current < track.samples.length - 1) track.current++;
     track.samples[track.current].block.dataset.current = 1;
+    document.querySelector(".button-play").disabled = false;
+    document.querySelector(".button-prev").disabled = false;
+    document.querySelector(".button-next").disabled = false;
   });
   track.samples[track.current].play();
   track.samples[track.current].block.dataset.active = 1;  

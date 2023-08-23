@@ -83,9 +83,9 @@ body {
 
 .player-wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     box-sizing: border-box;
     width: 100%;
     padding: 8px;
@@ -94,15 +94,62 @@ body {
     /* background-color: rgb(253, 221, 255); */
 }
 
+.player-buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 180px;
+    height: 40px;
+    /* background-color: rgba(137, 43, 226, 0.492); */
+}
+
+.button-play, .button-next, .button-prev {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: none;
+}
+
+.button-play {
+    background-image: url("../images/icon-play.svg");
+}
+
+.button-next {
+    background-image: url("../images/icon-forward.svg");
+}
+
+.button-prev {
+    background-image: url("../images/icon-forward.svg");
+    transform: rotate(180deg);
+}
+
+
 .player-noise {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 180px;
     height: 40px;
     /* background-color: rgba(137, 43, 226, 0.492); */
+}
+
+.player-left {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 40px;
+    /* background-color: rgba(43, 226, 122, 0.492); */
 }
 
 #range-noise {
