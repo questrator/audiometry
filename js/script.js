@@ -2,17 +2,6 @@ import words from "./words.js";
 import groups from "./groups.js";
 import selectorSettings from "./selectorSettings.js";
 
-// const rangeNoise = document.querySelector("#range-noise");
-// rangeNoise.addEventListener("change", changeNoise);
-// const rangeNoiseLabel = document.querySelector(".player-noise-label");
-
-// function changeNoise() {
-//   const noise = ["нет шума", "шум 3 dB", "шум 6 dB"];
-//   track.noise = +rangeNoise.value;
-//   rangeNoiseLabel.textContent = noise[rangeNoise.value];
-//   console.log(track)
-// }
-
 class Sample {
   constructor(word, file, id) {
     this.word = word;
@@ -33,11 +22,6 @@ class Sample {
   play() {
     this.audio.play();
   }
-
-  stop() {
-    this.audio.pause();
-    this.audio.currentTime = 0;
-  }
 }
 
 class Track {
@@ -46,22 +30,79 @@ class Track {
     this.samples = samples;
     this.pause = pause;
     this.current = 0;
-    this.previous = 0;
-    this.next = 1;
+
     this.noiseRange = document.querySelector("#range-noise");
     this.noiseRange.addEventListener("change", this.changeNoise.bind(this));
     this.noiseLevel = 0;
     this.noiseLabel = document.querySelector(".player-noise-label");
     this.noiseLevels = ["нет шума", "шум 3 dB", "шум 6 dB"];
-  }
 
-  addSample(sample) {
-    this.samples.push(sample);
+    this.buttonPlay = document.querySelector(".button-play");
+    this.buttonPlay.addEventListener("click", this.playSample.bind(this));
+    this.buttonPrev = document.querySelector(".button-prev");
+    this.buttonPrev.addEventListener("click", this.prevSample.bind(this));
+    this.buttonNext = document.querySelector(".button-next");
+    this.buttonNext.addEventListener("click", this.nextSample.bind(this));
   }
 
   changeNoise() {
     this.noiseLevel = +(this.noiseRange.value);
     this.noiseLabel.textContent = this.noiseLevels[this.noiseRange.value];
+  }
+
+  playSample() {
+    let c = 0;
+    const current = this.current;
+    const audio = this.samples[this.current].audio;
+    if (this.samples.length === 0) return; 
+    this.samples[this.current].audio.addEventListener("play", () => {
+      this.samples[this.current].block.dataset.played = 0;
+      [this.buttonPlay, this.buttonNext, this.buttonPrev].forEach(e => e.disabled = true);
+    });
+    audio.addEventListener("ended", this.endedHandler.bind(this));
+    const cloneAudio = {...audio}
+    
+
+    // this.samples[current].audio.removeEventListener("ended", this.endedHandler.bind(this));
+
+    this.samples[this.current].play();
+    this.samples[this.current].block.dataset.active = 1;  
+    console.log(this);
+    console.log(this.current)
+
+  }
+
+  endedHandler() {
+    let c = 0;
+    
+    this.samples[this.current].block.dataset.active = 0;
+    this.samples[this.current].block.dataset.current = 0;
+    this.samples[this.current].block.dataset.played = 1;
+    if (this.current < this.samples.length - 1) {
+      this.current++;
+    }
+    this.samples[this.current].block.dataset.current = 1;
+    [this.buttonPlay, this.buttonNext, this.buttonPrev].forEach(e => e.disabled = false);
+    console.log(this.current);    
+    
+    c++;
+    console.log("endedHandler", c);
+  }
+
+  prevSample() {
+    if (this.current === 0) return;
+    this.samples[this.current].block.dataset.current = 0;
+    this.current--;
+    this.samples[this.current].block.dataset.current = 1;
+    console.log(this.current)
+  }
+  
+  nextSample() {
+    if (this.current + 1 === this.samples.length) return;
+    this.samples[this.current].block.dataset.current = 0;
+    this.current++;
+    this.samples[this.current].block.dataset.current = 1;
+    console.log(this.current)
   }
 }
 
@@ -87,56 +128,12 @@ function createSampleList(event) {
     trackBlock.insertAdjacentElement("beforeend", sampleBlock);
     track.samples[i].block = sampleBlock;
   }
+
   track.samples[0].block.dataset.current = 1;
   track.current = 0;
 }
 
-const buttonPlay = document.querySelector(".button-play");
-buttonPlay.addEventListener("click", playSample);
-const buttonPrev = document.querySelector(".button-prev");
-buttonPrev.addEventListener("click", prevSample);
-const buttonNext = document.querySelector(".button-next");
-buttonNext.addEventListener("click", nextSample);
 
-function playSample() {
-  if (track.samples.length === 0) return; 
-  track.samples[track.current].audio.addEventListener("play", () => {
-    document.querySelector(".button-play").disabled = true;
-    document.querySelector(".button-prev").disabled = true;
-    document.querySelector(".button-next").disabled = true;
-  });
-  track.samples[track.current].audio.addEventListener("ended", () => {
-    track.samples[track.current].block.dataset.active = 0;
-    track.samples[track.current].block.dataset.current = 0;
-    track.samples[track.current].block.dataset.played = 1;
-    if (track.current < track.samples.length - 1) track.current++;
-    track.samples[track.current].block.dataset.current = 1;
-    document.querySelector(".button-play").disabled = false;
-    document.querySelector(".button-prev").disabled = false;
-    document.querySelector(".button-next").disabled = false;
-  });
-  track.samples[track.current].play();
-  track.samples[track.current].block.dataset.active = 1;  
-  console.log("track", track);
-}
-
-function prevSample() {
-  if (track.current === 0) return;
-  track.samples[track.current].block.dataset.current = 0;
-  track.current--;
-  track.next--;
-  track.previous--;
-  track.samples[track.current].block.dataset.current = 1;
-}
-
-function nextSample() {
-  if (track.current + 1 === track.samples.length) return;
-  track.samples[track.current].block.dataset.current = 0;
-  track.current++;
-  track.next++;
-  track.previous++;
-  track.samples[track.current].block.dataset.current = 1;
-}
 
 
   // const sampleTest = document.querySelector(".sample-test");
