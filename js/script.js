@@ -22,8 +22,6 @@ class Sample {
     this.getDuration();
     this.id = id;    
     this.block = null;
-    this.current = false;
-    this.played = false;
   }
 
   getDuration() {
@@ -90,7 +88,6 @@ function createSampleList(event) {
     track.samples[i].block = sampleBlock;
   }
   track.samples[0].block.dataset.current = 1;
-  track.samples[0].current = true;
   track.current = 0;
 }
 
@@ -102,27 +99,35 @@ const buttonNext = document.querySelector(".button-next");
 buttonNext.addEventListener("click", nextSample);
 
 function playSample() {
-  if (track.samples.length === 0) return;
+  if (track.samples.length === 0) return; 
+  track.samples[track.current].audio.addEventListener("ended", () => {
+    track.samples[track.current].block.dataset.active = 0;
+    track.samples[track.current].block.dataset.current = 0;
+    track.samples[track.current].block.dataset.played = 1;
+    if (track.current < track.samples.length - 1) track.current++;
+    track.samples[track.current].block.dataset.current = 1;
+  });
   track.samples[track.current].play();
-  track.samples[track.current].current = true;
-  track.samples[track.current].block.dataset.active = 1;
-  track.samples[track.current].block.dataset.current = 1;
-  if (track.current < track.samples.length - 1) track.current++;
-  console.log("track", track)
+  track.samples[track.current].block.dataset.active = 1;  
+  console.log("track", track);
 }
 
 function prevSample() {
-  console.log(track.samples);
+  if (track.current === 0) return;
+  track.samples[track.current].block.dataset.current = 0;
+  track.current--;
+  track.next--;
+  track.previous--;
+  track.samples[track.current].block.dataset.current = 1;
 }
 
 function nextSample() {
   if (track.current + 1 === track.samples.length) return;
   track.samples[track.current].block.dataset.current = 0;
-  track.current += 1;
-  track.next += 1;
-  track.previous += 1;
+  track.current++;
+  track.next++;
+  track.previous++;
   track.samples[track.current].block.dataset.current = 1;
-  console.log(track.current)
 }
 
 
