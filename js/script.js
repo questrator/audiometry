@@ -66,7 +66,7 @@ class Track {
     setTimeout(function() {
       const clone = audio.cloneNode(true);
       audio.replaceWith(clone);
-    }, this.samples[this.current].duration * 1000 + 100);
+    }, this.samples[this.current].duration * 1000 + 400);
 
     this.samples[this.current].block.dataset.active = 1;  
   }
