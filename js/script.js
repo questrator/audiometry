@@ -43,6 +43,8 @@ class Track {
     this.buttonPrev.addEventListener("click", this.prevSample.bind(this));
     this.buttonNext = document.querySelector(".button-next");
     this.buttonNext.addEventListener("click", this.nextSample.bind(this));
+
+    this.trackBlock = document.querySelector("#track");
   }
 
   changeNoise() {
@@ -51,30 +53,25 @@ class Track {
   }
 
   playSample() {
-    let c = 0;
-    const current = this.current;
-    const audio = this.samples[this.current].audio;
+    const audio = trackBlock.querySelector(`audio[data-id='${this.current}']`);
+    const self = this;
+
     if (this.samples.length === 0) return; 
     this.samples[this.current].audio.addEventListener("play", () => {
       this.samples[this.current].block.dataset.played = 0;
-      [this.buttonPlay, this.buttonNext, this.buttonPrev].forEach(e => e.disabled = true);
     });
-    audio.addEventListener("ended", this.endedHandler.bind(this));
-    const cloneAudio = {...audio}
-    
+    audio.addEventListener("ended", self.endedHandler.bind(self));
 
-    // this.samples[current].audio.removeEventListener("ended", this.endedHandler.bind(this));
+    audio.play();
+    setTimeout(function() {
+      const clone = audio.cloneNode(true);
+      audio.replaceWith(clone);
+    }, this.samples[this.current].duration * 1000 + 100);
 
-    this.samples[this.current].play();
     this.samples[this.current].block.dataset.active = 1;  
-    console.log(this);
-    console.log(this.current)
-
   }
 
   endedHandler() {
-    let c = 0;
-    
     this.samples[this.current].block.dataset.active = 0;
     this.samples[this.current].block.dataset.current = 0;
     this.samples[this.current].block.dataset.played = 1;
@@ -82,11 +79,6 @@ class Track {
       this.current++;
     }
     this.samples[this.current].block.dataset.current = 1;
-    [this.buttonPlay, this.buttonNext, this.buttonPrev].forEach(e => e.disabled = false);
-    console.log(this.current);    
-    
-    c++;
-    console.log("endedHandler", c);
   }
 
   prevSample() {
@@ -127,6 +119,10 @@ function createSampleList(event) {
     sampleBlock.classList.add("sample-block");    
     trackBlock.insertAdjacentElement("beforeend", sampleBlock);
     track.samples[i].block = sampleBlock;
+
+    const audioBlock = track.samples[i].audio;
+    audioBlock.dataset.id = i;
+    trackBlock.insertAdjacentElement("beforeend", audioBlock);
   }
 
   track.samples[0].block.dataset.current = 1;
