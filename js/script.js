@@ -11,6 +11,7 @@ class Sample {
     this.getDuration();
     this.id = id;    
     this.block = null;
+    this.result = 1;
   }
 
   getDuration() {
@@ -54,19 +55,18 @@ class Track {
 
   playSample() {
     const audio = trackBlock.querySelector(`audio[data-id='${this.current}']`);
-    const self = this;
 
     if (this.samples.length === 0) return; 
     this.samples[this.current].audio.addEventListener("play", () => {
       this.samples[this.current].block.dataset.played = 0;
     });
-    audio.addEventListener("ended", self.endedHandler.bind(self));
+    audio.addEventListener("ended", this.endedHandler.bind(this));
 
     audio.play();
     setTimeout(function() {
       const clone = audio.cloneNode(true);
       audio.replaceWith(clone);
-    }, this.samples[this.current].duration * 1000 + 400);
+    }, this.samples[this.current].duration * 1000 + 500);
 
     this.samples[this.current].block.dataset.active = 1;  
   }
