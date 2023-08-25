@@ -15,23 +15,32 @@
         <select id="select-track" placeholder="Выберете группу слов..."></select>
     </section>
 
-    <section class="track-wrapper">
-        <div id="track"></div>
-    </section>
+    <section class="controls">
+        <section class="track-wrapper">
+            <div id="track"></div>
+        </section>
 
-    <section class="player-wrapper">
-        <div class="player-left"></div>
-        <div class="player-buttons">
-            <button class="button-prev"></button>
-            <button class="button-play"></button>
-            <button class="button-next"></button>
-        </div>
-        <div class="player-noise">
-            <div class="player-noise-label">нет шума</div>
-            <input type="range" name="range-noise" id="range-noise" min="0" max="2" value="0">
-        </div>
+        <section class="player-wrapper">
+            <div class="player-left"></div>
+            <div class="player-buttons">
+                <button class="button-prev"></button>
+                <button class="button-play"></button>
+                <button class="button-next"></button>
+            </div>
+            <div class="player-noise">
+                <div class="player-noise-label">нет шума</div>
+                <input type="range" name="range-noise" id="range-noise" min="0" max="2" value="0">
+            </div>
+        </section>
+
+        <section class="result-wrapper">
+            <div id="result">
+                <div class="result-bad" data-selected="0" data-value="bad"></div>
+                <div class="result-good" data-selected="0" data-value="good"></div>
+            </div>
+        </section>
     </section>
-    <!-- <audio controls src="./sounds/муха.mp3"></audio> -->
+    
 
     <!-- <section class="track-wrapper">
         <div class="sample-test">Слово</div>

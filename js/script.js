@@ -11,7 +11,7 @@ class Sample {
     this.getDuration();
     this.id = id;    
     this.block = null;
-    this.result = 1;
+    this.result = null;
   }
 
   getDuration() {
@@ -26,9 +26,9 @@ class Sample {
 }
 
 class Track {
-  constructor(selector, samples = [], pause = 1000) {
+  constructor(selector, pause = 1000) {
     this.selector = new TomSelect(selector, selectorSettings);
-    this.samples = samples;
+    this.samples = [];
     this.pause = pause;
     this.current = 0;
 
@@ -46,6 +46,27 @@ class Track {
     this.buttonNext.addEventListener("click", this.nextSample.bind(this));
 
     this.trackBlock = document.querySelector("#track");
+
+    this.results = [];
+    this.resultBad = document.querySelector(".result-bad");
+    this.resultBad.addEventListener("click", this.resultToggle.bind(this));
+    this.resultGood = document.querySelector(".result-good");
+    this.resultGood.addEventListener("click", this.resultToggle.bind(this));
+  }
+
+  resultToggle(event) {
+    const value = event.target.dataset.value;    
+    this.setResult(value === "good" ? 1 : 0);
+    event.target.dataset.selected = 1;
+    this[value === "good" ? "resultBad" : "resultGood"].dataset.selected = 0;
+    this.samples[this.current].block.dataset.result = value;
+    console.log(this.samples[this.current]);
+  }
+
+  setResult(result) {
+    this.results[this.current] = result;
+    console.log(this.results);
+    console.log((this.results.reduce((r, e) => r + e, 0) / this.results.length * 100).toFixed(0) + "%");
   }
 
   changeNoise() {
@@ -54,7 +75,7 @@ class Track {
   }
 
   playSample() {
-    const audio = trackBlock.querySelector(`audio[data-id='${this.current}']`);
+    const audio = this.trackBlock.querySelector(`audio[data-id='${this.current}']`);
 
     if (this.samples.length === 0) return; 
     this.samples[this.current].audio.addEventListener("play", () => {
@@ -68,7 +89,7 @@ class Track {
       audio.replaceWith(clone);
     }, this.samples[this.current].duration * 1000 + 500);
 
-    this.samples[this.current].block.dataset.active = 1;  
+    this.samples[this.current].block.dataset.active = 1;
   }
 
   endedHandler() {
@@ -86,7 +107,6 @@ class Track {
     this.samples[this.current].block.dataset.current = 0;
     this.current--;
     this.samples[this.current].block.dataset.current = 1;
-    console.log(this.current)
   }
   
   nextSample() {
@@ -94,16 +114,14 @@ class Track {
     this.samples[this.current].block.dataset.current = 0;
     this.current++;
     this.samples[this.current].block.dataset.current = 1;
-    console.log(this.current)
   }
 }
 
 const track = new Track("#select-track");
 track.selector.on("change", createSampleList);
-const trackBlock = document.querySelector("#track");
 
 function createSampleList(event) {
-  trackBlock.innerHTML = "";  
+  track.trackBlock.innerHTML = "";  
   track.samples.length = 0;
   const groupList = track.selector.getValue();
   const wordList = groupList.map(e => groups[e].words).flat(1);
@@ -111,18 +129,21 @@ function createSampleList(event) {
 
   for (let i = 0; i < track.samples.length; i++) {
     const sampleBlock = document.createElement("div");
+    sampleBlock.dataset.id = i;
     sampleBlock.dataset.played = 0;
     sampleBlock.dataset.active = 0;
     sampleBlock.dataset.current = 0;
-    sampleBlock.dataset.id = i;
+    sampleBlock.dataset.result = 0;
     sampleBlock.textContent = track.samples[i].word;
     sampleBlock.classList.add("sample-block");    
-    trackBlock.insertAdjacentElement("beforeend", sampleBlock);
+    track.trackBlock.insertAdjacentElement("beforeend", sampleBlock);
     track.samples[i].block = sampleBlock;
 
     const audioBlock = track.samples[i].audio;
     audioBlock.dataset.id = i;
-    trackBlock.insertAdjacentElement("beforeend", audioBlock);
+    track.trackBlock.insertAdjacentElement("beforeend", audioBlock);
+
+    const sampleBlockLabel = document.createElement("div");
   }
 
   track.samples[0].block.dataset.current = 1;
