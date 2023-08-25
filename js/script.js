@@ -46,6 +46,7 @@ class Track {
     this.buttonNext.addEventListener("click", this.nextSample.bind(this));
 
     this.trackBlock = document.querySelector("#track");
+    this.controls = document.querySelector("#controls");
 
     this.results = [];
     this.resultBad = document.querySelector(".result-bad");
@@ -127,6 +128,12 @@ function createSampleList(event) {
   const wordList = groupList.map(e => groups[e].words).flat(1);
   track.samples.push(...wordList.map((e, i) => new Sample(e, words[e], i)));
 
+  if (track.samples.length > 0) {
+    track.controls.style.display = "flex";
+  }
+  else track.controls.style.display = "none";
+
+
   for (let i = 0; i < track.samples.length; i++) {
     const sampleBlock = document.createElement("div");
     sampleBlock.dataset.id = i;
@@ -146,7 +153,7 @@ function createSampleList(event) {
     const sampleBlockLabel = document.createElement("div");
   }
 
-  track.samples[0].block.dataset.current = 1;
+  if (track.samples.length > 0) track.samples[0].block.dataset.current = 1;
   track.current = 0;
 }
 

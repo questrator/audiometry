@@ -36,6 +36,12 @@ body {
     background-color: rgb(208, 222, 255);
 }
 
+#controls  {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
 .track-wrapper {
     display: flex;
     box-sizing: border-box;
