@@ -84,6 +84,9 @@ class Track {
     const audio = this.trackBlock.querySelector(`audio[data-id='${this.current}']`);
     const noise = document.querySelector(`audio[data-noise="${this.noiseLevel}"]`);
 
+    track.resultBad.dataset.selected = 0;
+    track.resultGood.dataset.selected = 0;
+
     if (this.samples.length === 0) return; 
     this.samples[this.current].audio.addEventListener("play", () => {
       this.samples[this.current].block.dataset.played = 0;
