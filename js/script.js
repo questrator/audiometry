@@ -53,6 +53,11 @@ class Track {
     this.resultBad.addEventListener("click", this.resultToggle.bind(this));
     this.resultGood = document.querySelector(".result-good");
     this.resultGood.addEventListener("click", this.resultToggle.bind(this));
+
+    this.noise0 = new Audio("./sounds/noise0.mp3");
+    this.noise1 = new Audio("./sounds/noise1.mp3");
+    this.noise2 = new Audio("./sounds/noise2.mp3");
+    this.noises = [this.noise0, this.noise1, this.noise2];
   }
 
   resultToggle(event) {
@@ -77,6 +82,7 @@ class Track {
 
   playSample() {
     const audio = this.trackBlock.querySelector(`audio[data-id='${this.current}']`);
+    const noise = document.querySelector(`audio[data-noise="${this.noiseLevel}"]`);
 
     if (this.samples.length === 0) return; 
     this.samples[this.current].audio.addEventListener("play", () => {
@@ -84,10 +90,16 @@ class Track {
     });
     audio.addEventListener("ended", this.endedHandler.bind(this));
 
-    audio.play();
+    noise.play();
+    setTimeout(function() {
+      audio.play();
+    }, 200);    
+
     setTimeout(function() {
       const clone = audio.cloneNode(true);
       audio.replaceWith(clone);
+      noise.pause();
+      noise.currentTime = 0;
     }, this.samples[this.current].duration * 1000 + 500);
 
     this.samples[this.current].block.dataset.active = 1;
@@ -155,6 +167,12 @@ function createSampleList(event) {
 
   if (track.samples.length > 0) track.samples[0].block.dataset.current = 1;
   track.current = 0;
+
+  for (let i = 0; i < track.noises.length; i++) {
+    const noiseBlock = track.noises[i];
+    noiseBlock.dataset.noise = i;
+    track.trackBlock.insertAdjacentElement("beforeend", noiseBlock);
+  }
 }
 
 
