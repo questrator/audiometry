@@ -66,6 +66,9 @@ class Track {
   resultToggle(event) {
     const value = event.target.dataset.value;    
     this.setResult(value === "good" ? 1 : 0);
+    const label = this.samples[this.current].block.querySelector(".sample-block-label");
+    label.dataset.result = value;
+    // console.log(this.samples[this.current].block)
     event.target.dataset.selected = 1;
     this[value === "good" ? "resultBad" : "resultGood"].dataset.selected = 0;
     this.samples[this.current].block.dataset.result = value;
@@ -79,6 +82,10 @@ class Track {
     this.result = Math.round(this.results.reduce((r, e) => r + e, 0) / this.results.length * 100);
     this.resultScoreBlock.textContent = `Результат: ${this.result} %`;
     return this.result;
+  }
+
+  setResultLabel(result) {
+    
   }
 
   moveCurrent() {
@@ -190,6 +197,8 @@ function createSampleList(event) {
     track.trackBlock.insertAdjacentElement("beforeend", audioBlock);
 
     const sampleBlockLabel = document.createElement("div");
+    sampleBlockLabel.classList.add("sample-block-label");
+    sampleBlock.insertAdjacentElement("beforeend", sampleBlockLabel);
   }
 
   if (track.samples.length > 0) track.samples[0].block.dataset.current = 1;
