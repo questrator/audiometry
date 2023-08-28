@@ -49,10 +49,13 @@ class Track {
     this.controls = document.querySelector("#controls");
 
     this.results = [];
+    this.result = 0;
     this.resultBad = document.querySelector(".result-bad");
     this.resultBad.addEventListener("click", this.resultToggle.bind(this));
     this.resultGood = document.querySelector(".result-good");
     this.resultGood.addEventListener("click", this.resultToggle.bind(this));
+    this.resultScoreBlock = document.querySelector(".result-score");
+    this.resultWordsBlock = document.querySelector(".result-words");
 
     this.noise0 = new Audio("./sounds/noise0.mp3");
     this.noise1 = new Audio("./sounds/noise1.mp3");
@@ -66,13 +69,34 @@ class Track {
     event.target.dataset.selected = 1;
     this[value === "good" ? "resultBad" : "resultGood"].dataset.selected = 0;
     this.samples[this.current].block.dataset.result = value;
-    console.log(this.samples[this.current]);
+    this.getWordsResult();
+    this.moveCurrent();
+    console.log(this.results);
   }
 
   setResult(result) {
     this.results[this.current] = result;
-    console.log(this.results);
-    console.log((this.results.reduce((r, e) => r + e, 0) / this.results.length * 100).toFixed(0) + "%");
+    this.result = Math.round(this.results.reduce((r, e) => r + e, 0) / this.results.length * 100);
+    this.resultScoreBlock.textContent = `Результат: ${this.result} %`;
+    return this.result;
+  }
+
+  moveCurrent() {
+    this.samples[this.current].block.dataset.active = 0;
+    this.samples[this.current].block.dataset.current = 0;
+    this.samples[this.current].block.dataset.played = 1;
+    if (this.current < this.samples.length - 1) {
+      this.current++;
+    }
+    this.samples[this.current].block.dataset.current = 1;
+    track.resultBad.dataset.selected = 0;
+    track.resultGood.dataset.selected = 0;
+  }
+
+  getWordsResult() {
+    const totalWords = this.samples.length;
+    const playedWords = this.samples.reduce((r, e) => e.block.dataset.result != "0" ? r + 1 : r, 0);
+    this.resultWordsBlock.textContent = `Оценено слов: ${playedWords} из ${totalWords}`;
   }
 
   changeNoise() {
@@ -83,9 +107,6 @@ class Track {
   playSample() {
     const audio = this.trackBlock.querySelector(`audio[data-id='${this.current}']`);
     const noise = document.querySelector(`audio[data-noise="${this.noiseLevel}"]`);
-
-    track.resultBad.dataset.selected = 0;
-    track.resultGood.dataset.selected = 0;
 
     if (this.samples.length === 0) return; 
     this.samples[this.current].audio.addEventListener("play", () => {
@@ -99,8 +120,8 @@ class Track {
     }, 200);    
 
     setTimeout(function() {
-      const clone = audio.cloneNode(true);
-      audio.replaceWith(clone);
+      // const clone = audio.cloneNode(true);
+      // audio.replaceWith(clone);
       noise.pause();
       noise.currentTime = 0;
     }, this.samples[this.current].duration * 1000 + 500);
@@ -109,13 +130,13 @@ class Track {
   }
 
   endedHandler() {
-    this.samples[this.current].block.dataset.active = 0;
-    this.samples[this.current].block.dataset.current = 0;
-    this.samples[this.current].block.dataset.played = 1;
-    if (this.current < this.samples.length - 1) {
-      this.current++;
-    }
-    this.samples[this.current].block.dataset.current = 1;
+    // this.samples[this.current].block.dataset.active = 0;
+    // this.samples[this.current].block.dataset.current = 0;
+    // this.samples[this.current].block.dataset.played = 1;
+    // if (this.current < this.samples.length - 1) {
+    //   this.current++;
+    // }
+    // this.samples[this.current].block.dataset.current = 1;
   }
 
   prevSample() {
@@ -137,8 +158,11 @@ const track = new Track("#select-track");
 track.selector.on("change", createSampleList);
 
 function createSampleList(event) {
+  track.resultScoreBlock.textContent = "";
+  track.resultWordsBlock.textContent = "";
   track.trackBlock.innerHTML = "";  
   track.samples.length = 0;
+  track.results.length = 0;
   const groupList = track.selector.getValue();
   const wordList = groupList.map(e => groups[e].words).flat(1);
   track.samples.push(...wordList.map((e, i) => new Sample(e, words[e], i)));
