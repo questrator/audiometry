@@ -36,6 +36,13 @@ body {
     background-color: rgb(208, 222, 255);
 }
 
+.select-optgroup {
+    padding: 2px 4px;
+    line-height: 1.2;
+    font-size: 1.0rem;
+    color:rgb(105, 105, 105);
+}
+
 #controls  {
     display: none;
     flex-direction: column;
