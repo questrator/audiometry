@@ -26,7 +26,7 @@ class Sample {
 }
 
 class Track {
-  constructor(selector, pause = 1000) {
+  constructor(selector, pause = 4000) {
     this.selector = new TomSelect(selector, selectorSettings);
     this.samples = [];
     this.pause = pause;

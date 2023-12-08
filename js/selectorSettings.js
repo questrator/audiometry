@@ -10,9 +10,8 @@ const selectorSettings = {
 		{value: "слово", label: "Отдельные слова"},
 	],
 	optgroupField: "group",
-    plugins: ['caret_position','input_autogrow', 'drag_drop'],
-    persist: false,
-	create: false,
+    plugins: ['caret_position','input_autogrow', 'drag_drop', 'remove_button'],
+    hidePlaceholder: true,
     render: {
         optgroup_header: function(data, escape) {
 			return "<div class='select-optgroup'>" + escape(data.label) + "</div>";

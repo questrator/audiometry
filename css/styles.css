@@ -37,10 +37,19 @@ body {
 }
 
 .select-optgroup {
-    padding: 2px 4px;
+    padding: 2px 2px;
     line-height: 1.2;
     font-size: 1.0rem;
     color:rgb(105, 105, 105);
+}
+
+[data-group] {
+    margin: 4px;
+    border-bottom: 1px dashed rgb(205, 205, 205);
+}
+
+[data-group]:last-child {
+    border-bottom: 0px;
 }
 
 #controls  {
