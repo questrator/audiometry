@@ -12,6 +12,7 @@ class Sample {
     this.id = id;    
     this.block = null;
     this.result = null;
+    console.log(this)
   }
 
   getDuration() {
@@ -172,7 +173,7 @@ function createSampleList(event) {
   track.results.length = 0;
   const groupList = track.selector.getValue();
   const wordList = groupList.map(e => groups[e].words).flat(1);
-  track.samples.push(...wordList.map((e, i) => new Sample(e, words[e], i)));
+  track.samples.push(...wordList.map((e, i) => new Sample(e, `./sounds/${words[e]}`, i))); //
 
   if (track.samples.length > 0) {
     track.controls.style.display = "flex";
